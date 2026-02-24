@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestro Primer Mes ❤️</title>
+
+<style>
+
+/* ====== ESTILO GENERAL ====== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+    scroll-behavior: smooth;
+}
+
+/* Cada sección ocupa toda la pantalla */
+section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+/* Tarjeta blanca */
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 700px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Títulos */
+h1, h2 {
+    color: #e91e63;
+}
+
+/* Párrafos */
+p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #333;
+}
+
+/* Firma animada (inicialmente oculta) */
+.firma-animada {
+    margin-top: 30px;
+    font-family: cursive;
+    font-size: 28px;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+/* Clase que hace visible la firma */
+.mostrar {
+    opacity: 1;
+}
+
+/* Botón */
+.boton {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    background-color: #e91e63;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: #c2185b;
+}
+
+/* Contador */
+#contador {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* ====== AQUÍ PUEDES AÑADIR IMÁGENES ======
+Si quieres añadir una imagen:
+<img src="foto.jpg" width="300">
+Solo pon la imagen en la misma carpeta que este HTML.
+*/
+
+/* ====== CORAZONES FLOTANDO ====== */
+
+.corazon {
+    position: fixed;
+    bottom: -20px;
+    font-size: 24px;
+    animation: flotar 4s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ====== MÚSICA DE FONDO ====== -->
+<!-- Coloca el archivo qbonito.mp3 en la misma carpeta -->
+<audio id="musica" loop>
+    <source src="qbonito.mp3" type="audio/mpeg">
+</audio>
+
+<section>
+<div class="card">
+
+<h1>Para la niña de mis ojos 💖</h1>
+
+<p>
+Hoy hace un 31 dias tome la mejor decicion de mi vida, se que llevamos poco tiempo juntos, pero no me hace falta mas para saber que
+quiero estar conitgo para siempre.
+</p>   
+
+</p>
+TAMO.
+</p>
+
+
+<!-- CONTADOR DE DÍAS -->
+<div id="contador"></div>
+
+</div>
+</section>
+
+<!-- ====== QUEJAS Y SUGERENCIAS ====== -->
+<section>
+<div class="card">
+
+<h2> Quejas y Sugerencias</h2>
+
+<p>Aqui puedes mentarme la madre si quieres, no me enojo.</p>
+
+<textarea id="sugerencia" rows="5" style="width:100%; border-radius:10px; padding:10px;"></textarea>
+
+<button class="boton" onclick="guardarSugerencia()">Guardar</button>
+
+<h3>Quejas y sugerencias del primer mes:</h3>
+<ul id="listaSugerencias" style="text-align:left;"></ul>
+
+</div>
+</section>
+
+<section>
+<div class="card">
+
+<h2>📄 Extensión Oficial de Contrato  📄</h2>
+
+<p>Se acuerda renovar la relación por un mes más bajo las siguientes condiciones:</p>
+
+<ul style="text-align:left;">
+<li>✔ Siempre apoyarnos el uno al otro.</li>
+<li>✔ Amarnos para siempre.</li>
+<li>✔ Bañarte minimo una vez a la semana.</li>
+<li>✔ Adoptar un casimerito.</li>
+<li>✔ Si hay algun problema siempre pudes contar conmigo.</li>
+<li>✔ Aceptar que te amo mucho MUCHO mas 👍🏻.</li>
+<li>✔ Besarme mucho.</li>
+<li>✔ Invitarme una quesabirria.</li>
+<li>✔ Amarnos para siempre, otra vez.</li>
+
+</ul>
+
+<button class="boton" onclick="aceptarContrato()">Aceptar Extensión </button>
+
+<!-- Firma animada -->
+<div id="firma" class="firma-animada">
+Renata ✍️
+</div>
+
+</div>
+</section>
+
+<!-- ====== MODAL TÉRMINOS Y CONDICIONES ====== -->
+<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+<div style="background:white; padding:30px; border-radius:15px; max-width:400px; text-align:center;">
+
+<h3>Términos y Condiciones 💌</h3>
+
+<p>Al aceptar los terminos y condiciones de este contrato se me da la total livertad de robarme a tus peluches:</p>
+
+<label>
+<input type="checkbox" id="aceptarCheck">
+Acepto los términos y condiciones
+</label>
+
+<br><br>
+
+<button class="boton" onclick="confirmarContrato()">Confirmar</button>
+
+</div>
+</div>
+
+<script>
+
+/* ============================= */
+/*      CONTADOR EN TIEMPO REAL  */
+/* ============================= */
+
+/*
+Fecha de inicio:
+IMPORTANTE: Usa formato (año, mes-1, día, hora, minuto)
+El mes empieza desde 0 (enero = 0)
+*/
+let fechaInicio = new Date(2026, 0, 24, 0, 0, 0);
+
+function actualizarContador() {
+
+    let ahora = new Date();
+
+    let diferencia = ahora - fechaInicio;
+
+    let dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    let horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    let minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    let segundos = Math.floor((diferencia / 1000) % 60);
+
+    document.getElementById("contador").innerText =
+    `Llevamos ${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos juntos ❤️`;
+}
+
+/* Actualiza cada segundo */
+setInterval(actualizarContador, 1000);
+actualizarContador();
+
+
+
+/* ============================= */
+/*      MODAL DE CONTRATO        */
+/* ============================= */
+
+function aceptarContrato() {
+
+    // Mostrar ventana modal
+    document.getElementById("modal").style.display = "flex";
+}
+
+function confirmarContrato() {
+
+    let check = document.getElementById("aceptarCheck");
+
+    if(check.checked) {
+
+        // Cerrar modal
+        document.getElementById("modal").style.display = "none";
+
+        // Mostrar firma animada
+        document.getElementById("firma").classList.add("mostrar");
+
+        //Animacion de corazones
+        lanzarCorazones();
+
+        // Reproducir música
+        document.getElementById("musica").play();
+
+    } else {
+        alert("Debes aceptar los términos 😌");
+    }
+}
+
+/* ============================= */
+/*      EFECTO CORAZONES         */
+/* ============================= */
+
+function lanzarCorazones() {
+
+    for(let i = 0; i < 25; i++) {
+
+        let corazon = document.createElement("div");
+        corazon.classList.add("corazon");
+        corazon.innerHTML = "❤️";
+
+        // Posición horizontal aleatoria
+        corazon.style.left = Math.random() * 100 + "vw";
+
+        // Tamaño aleatorio
+        corazon.style.fontSize = (20 + Math.random() * 30) + "px";
+
+        // Duración aleatoria
+        corazon.style.animationDuration = (3 + Math.random() * 2) + "s";
+
+        document.body.appendChild(corazon);
+
+        // Eliminar después de animación
+        setTimeout(() => {
+            corazon.remove();
+        }, 4000);
+    }
+}
+
+
+
+/* ============================= */
+/*      QUEJAS Y SUGERENCIAS     */
+/* ============================= */
+
+/*
+Usamos localStorage.
+Eso guarda la información en el navegador.
+No se borra al cerrar la página.
+*/
+
+function guardarSugerencia() {
+
+    let texto = document.getElementById("sugerencia").value;
+
+    if(texto.trim() === "") return;
+
+    let sugerencias = JSON.parse(localStorage.getItem("sugerencias")) || [];
+
+    sugerencias.push(texto);
+
+    localStorage.setItem("sugerencias", JSON.stringify(sugerencias));
+
+    document.getElementById("sugerencia").value = "";
+
+    mostrarSugerencias();
+}
+
+function mostrarSugerencias() {
+
+    let lista = document.getElementById("listaSugerencias");
+
+    lista.innerHTML = "";
+
+    let sugerencias = JSON.parse(localStorage.getItem("sugerencias")) || [];
+
+    sugerencias.forEach(function(item) {
+
+        let li = document.createElement("li");
+        li.textContent = item;
+        lista.appendChild(li);
+
+    });
+}
+
+/* Cargar sugerencias al abrir la página */
+mostrarSugerencias();
+
+</script>
+
+</body>
+</html>
